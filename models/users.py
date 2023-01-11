@@ -6,5 +6,5 @@ class UsersModel(BaseModel):
     document_type:  str
     document:  str
     name:  str
-    full_last:  str
+    last_name:  str
     hobbie:  str
