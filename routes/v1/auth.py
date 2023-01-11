@@ -24,7 +24,7 @@ class Authentication(Resource):
     def post(self):
         headers = json.loads(json.dumps({k.replace("-", "_").lower(): request.headers[k] for k in request.headers.keys()}))
         if "x_token" not in headers or "x_api_key" not in headers or "x_secret_id" not in headers:
-            raise HTTPException("You are not authorized to perform this operation-headers")
+            raise HTTPException("You are not authorized to perform this operation")
         return AuthToken(self.write_token({
             "x_token": headers['x_token'],
             "x_api_key": headers['x_api_key'],
