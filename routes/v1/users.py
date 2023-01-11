@@ -1,13 +1,12 @@
 import flask
 import json
-from flask import request, jsonify
+from flask import request
 from flask_restful import Api, Resource
 from dataclasses import dataclass
 from config.database import connect_to_database as cdb
 from models.users import UsersModel
-from werkzeug.exceptions import HTTPException
 from pydantic import ValidationError
-from bson import ObjectId, json_util
+from bson import ObjectId
 
 users_v1 = flask.Blueprint('users_v1', __name__)
 api = Api(users_v1)
@@ -64,13 +63,12 @@ class UserResource(Resource):
     def get(self, user_id=None):
         users = [user for user in self.db.users.find({})] if not user_id else self.db.users.find_one({"_id": ObjectId(user_id)})
         json_users = json.dumps(users, cls=BSONEncoder)
-        print(type(json_users))
         return {
-            "code": 404,
+            "code": 0,
             "message": "success",
             "data": json_users
         } if json_users != "null" else {
-            "code": 0,
+            "code": 404,
             "message": "User does not exist.",
             "data": []
         }
@@ -78,10 +76,10 @@ class UserResource(Resource):
     def delete(self, user_id):
         self.db.users.delete_one({"_id":ObjectId(user_id)})
         return { 
-            "code": 404,
+            "code": 0,
             "message": "User Deleted Successfully.",
             "data": []}
 
 
-api.add_resource(UserResource, '/api/v1/users/','/api/v1/users/<user_id>', endpoint='')
+api.add_resource(UserResource, '/api/v1/users','/api/v1/users/<user_id>', endpoint='')
 
