@@ -14,10 +14,10 @@ def validate_token(headers, output=False):
     except exceptions.DecodeError:
         raise HTTPException("Invalid token.")
     except exceptions.ExpiredSignatureError:
-        raise HTTPException("You are not authorized to perform this operation")
+        raise HTTPException("You are not authorized to perform this operation-token")
 
 
 def validate_headers(headers):
     if "authorization" not in headers:
-        raise HTTPException("You are not authorized to perform this operation")
+        raise HTTPException("You are not authorized to perform this operation-authorization")
     return headers['authorization']
