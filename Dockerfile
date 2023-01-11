@@ -1,11 +1,6 @@
 FROM python:3.9-slim
-
-WORKDIR /app
-
+WORKDIR /entrypoint
 COPY . .
-
 RUN pip install -r requirements.txt
-
-ENV PORT 8000
-
-CMD exec uvicorn app:app --host 0.0.0.0 --port $PORT
+ENV PORT 80
+CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 app:app
