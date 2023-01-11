@@ -21,4 +21,4 @@ def validate_headers(headers):
     print(headers)
     if "token" not in headers:
         raise HTTPException("You are not authorized to perform this operation-authorization")
-    return headers['authorization']
+    return headers['token']
